@@ -15,6 +15,11 @@ extension UIAlertController {
     class func createSheet() -> UIAlertController {
         return createSheet(nil, message: nil)
     }
+    class func createAlert(title: String?, message: String?, cancelTitle: String?) -> UIAlertController {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(cancelTitle, style: UIAlertActionStyle.Cancel, handler: nil)
+        return alert
+    }
     class func createAlert(title: String?, message: String?) -> UIAlertController {
         return UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
     }
@@ -24,6 +29,7 @@ extension UIAlertController {
     class func createAlert() -> UIAlertController {
         return createAlert(nil, message: nil)
     }
+    
     
     // MARK: Set Actions
     
