@@ -5,10 +5,10 @@ class MUFile: NSObject {
     // MARK: - Get The Path
 
     /** 
-    Get the path with app.
-    File: "D" = "Document"; "L" = "Library"; "T" = "Temporary"; "C" = "Caches";
-    Other or nil all is the NSHomeDirectory.
-    */
+     Get the path with app.
+     File: "D" = "Document"; "L" = "Library"; "T" = "Temporary"; "C" = "Caches";
+     Other or nil all is the NSHomeDirectory.
+     */
     class func getPath(file: String?) -> String {
         if let _ = file {
             switch file! {
@@ -70,5 +70,43 @@ class MUFile: NSObject {
     
     // MARK: - Archiver Operate
     
+    /**
+     Archiver objects use key:Object.
+     */
+    class func archiverObjects(objects:[String:AnyObject]) -> NSData {
+        let data = NSMutableData()
+        let archiver = NSKeyedArchiver(forWritingWithMutableData: data)
+        for (key, object) in objects {
+            archiver.encodeObject(object, forKey: key)
+        }
+        archiver.finishEncoding()
+        return data
+    }
+    /**
+     ArchoverObject
+     */
+    class func archiverObject(object:AnyObject) -> NSData {
+        return NSKeyedArchiver.archivedDataWithRootObject(object)
+    }
     
+    /**
+     UnarchoverObjects
+     */
+    class func unarchiverObjects(data data:NSData, keys:[String]) -> [String:AnyObject?] {
+        let unarchiver = NSKeyedUnarchiver(forReadingWithData: data)
+        var objects = [String:AnyObject?]()
+        for key in keys {
+            objects[key] = unarchiver.decodeObjectForKey(key)
+        }
+        unarchiver.finishDecoding()
+        return objects
+    }
+    
+    /**
+     UnarchoverObject
+     */
+    class func unarchiverObject(data data:NSData) -> AnyObject? {
+        return NSKeyedUnarchiver.unarchiveObjectWithData(data)
+    }
+
 }
